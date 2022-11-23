@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "302139572398",
+    "project_id": "jimapp-283d8",
+    "storage_bucket": "jimapp-283d8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:302139572398:android:40684172bcd06cec00ed3f",
+        "android_client_info": {
+          "package_name": "com.example.jim"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "302139572398-qvou3upbma2l8mfnbkmt5l281jbf95cl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHGkKjuWHXI2R5Hb0014uDmhyWCuc1_m4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "302139572398-qvou3upbma2l8mfnbkmt5l281jbf95cl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
