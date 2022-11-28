@@ -4,11 +4,13 @@ data class Screen(val route: String)
 
 object Routes {
     val launchNavigation = Screen("launchnavigation")
-    val home = Screen("home")
+    val homeNavigation = Screen("homenavigation")
     val launch = Screen("launch")
     val signIn = Screen("signin")
     val signUp = Screen("signup")
-    val exercises = Screen("exercises")
+    val home = Screen("home")
+    val workouts = Screen("workouts")
+    val workout = Screen("workout")
     val editExercise = Screen("editexercise?id={id}")
     val splashScreen = Screen("splashscreen")
 }

@@ -1,7 +1,6 @@
 package com.example.jim.ui.repositories
 
 import com.google.firebase.auth.FirebaseAuthException
-import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
@@ -13,9 +12,8 @@ object UserRepository {
         try {
             Firebase.auth.createUserWithEmailAndPassword(
                 email,
-                password
+                password,
             ).await()
-
         } catch (e: FirebaseAuthException) {
             throw SignUpException(e.message)
         }

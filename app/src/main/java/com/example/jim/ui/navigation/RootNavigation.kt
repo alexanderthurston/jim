@@ -6,10 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ExitToApp
-import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -37,7 +34,7 @@ fun RootNavigation() {
         topBar = {
             if (currentDestination?.hierarchy?.none { it.route == Routes.launchNavigation.route || it.route == Routes.splashScreen.route } == true) {
                 TopAppBar() {
-                    if (currentDestination?.route == Routes.todos.route) {
+                    if (currentDestination?.route == Routes.home.route) {
                         IconButton(onClick = { scope.launch { scaffoldState.drawerState.open() } }) {
                             Icon(Icons.Default.Menu, contentDescription = "Menu button")
                         }
@@ -46,7 +43,7 @@ fun RootNavigation() {
                             Icon(Icons.Default.ArrowBack, contentDescription = "Back")
                         }
                     }
-                    Text(text = "Todos")
+                    Text(text = "Home")
                 }
             }
         },
@@ -68,13 +65,13 @@ fun RootNavigation() {
                 }
             }
         },
-//        floatingActionButton = {
-//            if (currentDestination?.route == Routes.todos.route) {
-//                FloatingActionButton(onClick = {navController.navigate(Routes.editTodo.route)}) {
-//                    Icon(imageVector = Icons.Default.Add, contentDescription = "Add todo")
-//                }
-//            }
-//        }
+        floatingActionButton = {
+            if (currentDestination?.route == Routes.home.route) {
+                FloatingActionButton(onClick = {navController.navigate(Routes.editExercise.route)}) {
+                    Icon(imageVector = Icons.Default.Add, contentDescription = "Add exercise")
+                }
+            }
+        }
     ) {
         NavHost(
             navController = navController,
@@ -86,15 +83,16 @@ fun RootNavigation() {
                 composable(route = Routes.signIn.route) { SignInScreen(navController) }
                 composable(route = Routes.signUp.route) { SignUpScreen(navController) }
             }
-//            navigation(route = Routes.home.route, startDestination = Routes.todos.route) {
+            navigation(route = Routes.homeNavigation.route, startDestination = Routes.home.route) {
 //                composable(
-//                    route = "edittodo?id={id}",
+//                    route = "editexercise?id={id}",
 //                    arguments = listOf(navArgument("id") { defaultValue = "new" })
 //                ) { navBackStackEntry ->
 //                    TodosModificationScreen(navController, navBackStackEntry.arguments?.get("id").toString())
 //                }
-//                composable(route = Routes.todos.route) { TodosScreen(navController) }
-//            }
+//                composable(route = Routes.workouts.route) {}
+                composable(route = Routes.home.route) { HomeScreen(navController) }
+            }
             composable(route = Routes.splashScreen.route) { SplashScreen(navController) }
         }
     }
