@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.jim.ui.components.ExerciseListItem
+import com.example.jim.ui.components.WorkoutListItem
 import com.example.jim.ui.viewmodels.HomeScreenViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
@@ -22,16 +23,7 @@ fun HomeScreen(navHostController: NavHostController) {
     val viewModel: HomeScreenViewModel = viewModel()
     val state = viewModel.uiState
     val scope = rememberCoroutineScope()
-
-//    val sortedList by remember(state.showHigherPriorityItemsFirst) {
-//        derivedStateOf {
-//            if (state.showHigherPriorityItemsFirst) {
-//                state.exercises.sortedBy { it.priority }.reversed()
-//            } else {
-//                state.exercises
-//            }
-//        }
-//    }
+    val sortedList by remember(true) { derivedStateOf { state.workouts.sortedBy { it.date } } }
 
     LaunchedEffect(true) {
         val loadingTodos = async {viewModel.getTodos()}
@@ -45,28 +37,23 @@ fun HomeScreen(navHostController: NavHostController) {
             Spacer(modifier = Modifier.height(16.dp))
 
         } else {
+            //Recent Workouts
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(checked = state.showHigherPriorityItemsFirst, onCheckedChange = { state.showHigherPriorityItemsFirst = it })
-                Text(text = "Show high priority items first")
+                Text(text = "Recent Workout Logs")
             }
-//            LazyColumn(modifier = Modifier
-//                .fillMaxHeight()
-//                .padding(16.dp)) {
-//                items(sortedList, key = {it.id!!}) { exercise ->
-//                    ExerciseListItem(
-//                        exercise = exercise,
-//                        toggle = {
-//                            scope.launch {
-//                                viewModel.toggleTodoCompletion(exercise)
-//                            }
-//                        },
-//                        onEditPressed = {
-//                            navHostController.navigate("editexercise?id=${exercise.id}")
-//                        }
-//                    )
-//                    Spacer(modifier = Modifier.height(8.dp))
-//                }
-//            }
+            LazyColumn(modifier = Modifier
+                .fillMaxHeight()
+                .padding(16.dp)) {
+                items(sortedList, key = {it.id!!}) { workout ->
+                    WorkoutListItem(
+                        workout = workout,
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
+            }
+
+            //Workout Durations
+
         }
     }
 }

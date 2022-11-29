@@ -5,23 +5,24 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.AndroidViewModel
-import com.example.jim.ui.models.Exercise
-import com.example.jim.ui.repositories.ExercisesRepository
+import com.example.jim.ui.models.Workout
+import com.example.jim.ui.repositories.WorkoutsRepository
 
-class ExercisesScreenState {
-    val _exercises = mutableStateListOf<Exercise>()
-    val exercises: List<Exercise> get() = _exercises
-    var showHigherPriorityItemsFirst by mutableStateOf(false)
+class HomeScreenState {
+    val _workouts = mutableStateListOf<Workout>()
+    val workouts: SnapshotStateList<Workout> get() = _workouts
+    var showRecentWorkoutsFirst by mutableStateOf(false)
     var loading by mutableStateOf(true)
 }
 
 class HomeScreenViewModel(application: Application): AndroidViewModel(application) {
-    val uiState = ExercisesScreenState()
+    val uiState = HomeScreenState()
     suspend fun getTodos() {
-        val exercises = ExercisesRepository.getExercises()
-        uiState._exercises.clear()
-        uiState._exercises.addAll(exercises)
+        val workouts = WorkoutsRepository.getWorkouts()
+        uiState._workouts.clear()
+        uiState._workouts.addAll(workouts)
     }
 
 //    suspend fun toggleTodoCompletion(exercise: Exercise) {

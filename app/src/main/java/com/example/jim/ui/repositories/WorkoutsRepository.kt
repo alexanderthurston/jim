@@ -28,13 +28,15 @@ object WorkoutsRepository {
     }
 
     suspend fun createWorkout(
-        name: String
+        duration: Int,
+        date: String
     ): Workout {
         val doc = Firebase.firestore.collection("workouts").document()
         val workout = Workout(
             id = doc.id,
             userId = UserRepository.getCurrentUserId(),
-            name = name
+            date = date,
+            duration = duration
         )
         doc.set(workout).await()
         workoutsCache.add(workout)

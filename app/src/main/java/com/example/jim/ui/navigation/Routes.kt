@@ -9,8 +9,7 @@ object Routes {
     val signIn = Screen("signin")
     val signUp = Screen("signup")
     val home = Screen("home")
-    val workouts = Screen("workouts")
-    val workout = Screen("workout")
-    val editExercise = Screen("editexercise?id={id}")
+    val workoutSession = Screen("workoutsession?id={id}")
+    val addExercise = Screen("addexercise")
     val splashScreen = Screen("splashscreen")
 }

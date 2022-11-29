@@ -18,15 +18,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.example.jim.ui.models.Exercise
+import com.example.jim.ui.viewmodels.WorkoutSessionScreenState
 
 
 @Composable
 fun ExerciseListItem(
     exercise: Exercise,
-    toggle: (checked: Boolean) -> Unit = {},
     onEditPressed: () -> Unit = {}
 ) {
     var showDetail by remember { mutableStateOf(false) }
+    var weight by remember { mutableStateOf(0)}
+    var reps by remember { mutableStateOf(0)}
+
     Surface(
         elevation = 2.dp,
         shape = RoundedCornerShape(4.dp),
@@ -34,36 +37,49 @@ fun ExerciseListItem(
             showDetail = !showDetail
         },
     ) {
-        Column (){
-                Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(text = exercise.name ?: "", style = MaterialTheme.typography.subtitle2)
-                    }
-                    IconButton(onClick = onEditPressed) {
-                        Icon(imageVector = Icons.Default.Edit, contentDescription = "Edit button")
-                    }
-                }
-                AnimatedVisibility(
-                    visible = showDetail,
-                    enter = expandVertically(),
-                    exit = shrinkVertically(),
-                ) {
-                    /* TODO: Put Sets of exercise here! */
-//                    Column {
-//                        Divider()
-//                        Spacer(modifier = Modifier.height(16.dp))
-//                        Row(modifier = Modifier.padding(16.dp, 0.dp)) {
-//                            Text(text = todo.description ?: "")
-//                        }
-//
-//                        Text(
-//                            text = "${todo.estimatedCompletionTime ?: ""}hrs",
-//                            modifier = Modifier.padding(16.dp, 0.dp)
-//                        )
-//                        Spacer(modifier = Modifier.height(16.dp))
-//                    }
+        Column() {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(text = exercise.name ?: "", style = MaterialTheme.typography.subtitle2)
                 }
             }
+            AnimatedVisibility(
+                visible = showDetail,
+                enter = expandVertically(),
+                exit = shrinkVertically(),
+            ) {
+                /* TODO: Put Set entry here! */
+                Column {
+                    Divider()
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        FormField(
+                            value = "$weight",
+                            onValueChange = { weight = it.toInt() },
+                            placeholder = { Text(text = "Set Weight") }
+                        )
+                    }
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        FormField(
+                            value = "$reps",
+                            onValueChange = { reps = it.toInt() },
+                            placeholder = { Text(text = "Set Repetitions") }
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+            }
+        }
     }
 }
 

@@ -32,7 +32,7 @@ object SetsRepository {
         reps: Int,
         weight: Float,
         exerciseId: String,
-        workoutId: String,
+        workoutId: String? = "",
     ): Set {
         val doc = Firebase.firestore.collection("sets").document()
         val set = Set(

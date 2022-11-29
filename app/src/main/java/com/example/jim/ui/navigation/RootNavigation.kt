@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.*
+import androidx.navigation.navArgument
 import com.example.jim.ui.screens.*
 import com.example.jim.ui.viewmodels.RootNavigationViewModel
 import kotlinx.coroutines.launch
@@ -67,7 +68,12 @@ fun RootNavigation() {
         },
         floatingActionButton = {
             if (currentDestination?.route == Routes.home.route) {
-                FloatingActionButton(onClick = {navController.navigate(Routes.editExercise.route)}) {
+                FloatingActionButton(onClick = {navController.navigate(Routes.workoutSession.route)}) {
+                    Icon(imageVector = Icons.Default.Add, contentDescription = "Start workout session")
+                }
+            }
+            else if (currentDestination?.route == Routes.workoutSession.route) {
+                FloatingActionButton(onClick = {navController.navigate(Routes.addExercise.route)}) {
                     Icon(imageVector = Icons.Default.Add, contentDescription = "Add exercise")
                 }
             }
@@ -88,9 +94,9 @@ fun RootNavigation() {
 //                    route = "editexercise?id={id}",
 //                    arguments = listOf(navArgument("id") { defaultValue = "new" })
 //                ) { navBackStackEntry ->
-//                    TodosModificationScreen(navController, navBackStackEntry.arguments?.get("id").toString())
+//                    WorkoutModificationScreen(navController, navBackStackEntry.arguments?.get("id").toString())
 //                }
-//                composable(route = Routes.workouts.route) {}
+                composable(route = Routes.workoutSession.route) { WorkoutSessionScreen(navController) }
                 composable(route = Routes.home.route) { HomeScreen(navController) }
             }
             composable(route = Routes.splashScreen.route) { SplashScreen(navController) }
