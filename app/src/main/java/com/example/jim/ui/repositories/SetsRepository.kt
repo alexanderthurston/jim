@@ -30,7 +30,7 @@ object SetsRepository {
 
     suspend fun createSet(
         reps: Int,
-        weight: Float,
+        weight: Int,
         exerciseId: String,
         workoutId: String? = "",
     ): Set {

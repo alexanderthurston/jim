@@ -4,7 +4,6 @@ data class Set(
     val userId: String? = null,
     val id: String? = null,
     val reps: Int? = null,
-    val weight: Float? = null,
+    val weight: Int? = null,
     val exerciseId: String? = null,
-    val workoutId: String? = null,
 )

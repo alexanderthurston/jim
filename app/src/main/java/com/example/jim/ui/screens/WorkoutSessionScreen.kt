@@ -63,13 +63,26 @@ fun WorkoutSessionScreen(navHostController: NavHostController) {
                 items(state.exercises, key = { it.id!! }) { exercise ->
                     ExerciseListItem(
                         exercise = exercise,
-                        onEditPressed = { viewModel.addSet()}
+                        sets = state.sets.filter { set -> set.exerciseId == exercise.id },
+                        viewModel = viewModel,
+                        state = state
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                 }
             }
         }
-
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Button(onClick = {
+                scope.launch {
+//                    viewModel.addExercise()
+                }
+            }) {
+                Text(text = "Complete Workout")
+            }
+        }
 
     }
 }
