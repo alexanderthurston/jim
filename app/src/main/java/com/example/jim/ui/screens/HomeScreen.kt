@@ -3,7 +3,7 @@ package com.example.jim.ui.screens
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Checkbox
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -11,12 +11,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.jim.ui.components.ExerciseListItem
 import com.example.jim.ui.components.WorkoutListItem
 import com.example.jim.ui.viewmodels.HomeScreenViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @Composable
 fun HomeScreen(navHostController: NavHostController) {
@@ -26,10 +24,13 @@ fun HomeScreen(navHostController: NavHostController) {
     val sortedList by remember(true) { derivedStateOf { state.workouts.sortedBy { it.date } } }
 
     LaunchedEffect(true) {
-        val loadingTodos = async {viewModel.getTodos()}
+        val loadingWorkouts = async {viewModel.getWorkoutsExercisesAndSets()}
         delay(2000)
-        loadingTodos.await()
+//        println(state.loading)
+        loadingWorkouts.await()
+//        println(state.loading)
         state.loading = false
+//        println(state.loading)
     }
 
     Column {
@@ -38,8 +39,8 @@ fun HomeScreen(navHostController: NavHostController) {
 
         } else {
             //Recent Workouts
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = "Recent Workout Logs")
+            Row(modifier = Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
+                Text(text = "Recent Workout Logs", style=MaterialTheme.typography.h4)
             }
             LazyColumn(modifier = Modifier
                 .fillMaxHeight()
@@ -47,6 +48,8 @@ fun HomeScreen(navHostController: NavHostController) {
                 items(sortedList, key = {it.id!!}) { workout ->
                     WorkoutListItem(
                         workout = workout,
+                        exercises = state.exercises.filter { it.workoutId == workout.id },
+                        sets = state.sets.filter { it.workoutId == workout.id }
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                 }

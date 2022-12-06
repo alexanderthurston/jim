@@ -6,4 +6,5 @@ data class Set(
     val reps: Int? = null,
     val weight: Int? = null,
     val exerciseId: String? = null,
+    var workoutId: String? = null,
 )

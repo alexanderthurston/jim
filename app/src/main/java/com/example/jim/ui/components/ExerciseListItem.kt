@@ -30,8 +30,7 @@ import kotlinx.coroutines.launch
 fun ExerciseListItem(
     exercise: Exercise,
     sets: List<Set>? = null,
-    viewModel: WorkoutSessionViewModel,
-    state: WorkoutSessionScreenState
+    viewModel: WorkoutSessionViewModel
 ) {
     val scope = rememberCoroutineScope()
     var showDetail by remember { mutableStateOf(false) }
@@ -62,16 +61,6 @@ fun ExerciseListItem(
                             Text(text = "${set.weight} lbs x ${set.reps} reps")
                         }
                     }
-//                    LazyColumn(
-//                        modifier = Modifier
-//                            .fillMaxHeight()
-//                            .padding(16.dp)
-//                    ) {
-//                        items(sets, key = { it.id!! }) { set ->
-//                            Text(text = "${set.weight} lbs x ${set.reps} reps")
-//                            Spacer(modifier = Modifier.height(8.dp))
-//                        }
-//                    }
                 }
             }
             AnimatedVisibility(
@@ -117,10 +106,14 @@ fun ExerciseListItem(
                         horizontalArrangement = Arrangement.Center
                     ) {
                         Button(onClick = {
-                            scope.launch { viewModel.addSet(reps, weight, exercise.id.toString()) }
+                            println("Reps: $reps, Weight $weight")
+                            val rep = reps
+                            val weigh = weight
+                            scope.launch { viewModel.addSet(rep, weigh, exercise.id.toString()) }
                             showDetail = false
                             reps = 0
                             weight = 0
+
                         }) {
                             Text(text = "Add Set")
                         }

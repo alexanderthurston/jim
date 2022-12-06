@@ -4,5 +4,5 @@ data class Exercise(
     val userId: String? = null,
     val id: String? = null,
     val name: String? = null,
-    val workoutId: String? = null
+    var workoutId: String? = null
 )

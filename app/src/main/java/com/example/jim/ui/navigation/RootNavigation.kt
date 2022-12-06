@@ -72,11 +72,11 @@ fun RootNavigation() {
                     Icon(imageVector = Icons.Default.Add, contentDescription = "Start workout session")
                 }
             }
-            else if (currentDestination?.route == Routes.workoutSession.route) {
-                FloatingActionButton(onClick = {navController.navigate(Routes.addExercise.route)}) {
-                    Icon(imageVector = Icons.Default.Add, contentDescription = "Add exercise")
-                }
-            }
+//            else if (currentDestination?.route == Routes.workoutSession.route) {
+//                FloatingActionButton(onClick = {navController.navigate(Routes.addExercise.route)}) {
+//                    Icon(imageVector = Icons.Default.Add, contentDescription = "Add exercise")
+//                }
+//            }
         }
     ) {
         NavHost(

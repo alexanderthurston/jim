@@ -1,6 +1,5 @@
 package com.example.jim.ui.repositories
 
-import com.example.jim.ui.models.Exercise
 import com.example.jim.ui.models.Workout
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObjects
@@ -12,18 +11,19 @@ object WorkoutsRepository {
     private val workoutsCache = mutableListOf<Workout>()
     private var cacheInitialized = false
 
-    suspend fun getWorkouts(): List<Workout> {
-        if (!cacheInitialized){
-            val snapshot = Firebase.firestore
-                .collection("workouts")
-                .whereEqualTo("userId", UserRepository.getCurrentUserId())
-                .get()
-                .await()
-            workoutsCache.addAll(snapshot.toObjects())
-            cacheInitialized = true
-        }
-
-        return workoutsCache
+    suspend fun getUserWorkouts(): List<Workout> {
+//        if (!cacheInitialized){
+        val snapshot = Firebase.firestore
+            .collection("workouts")
+            .whereEqualTo("userId", UserRepository.getCurrentUserId())
+            .get()
+            .await()
+        return snapshot.toObjects()
+//            workoutsCache.addAll(snapshot.toObjects())
+//            cacheInitialized = true
+//        }
+//
+//        return workoutsCache
 
     }
 
@@ -41,19 +41,5 @@ object WorkoutsRepository {
         doc.set(workout).await()
         workoutsCache.add(workout)
         return workout
-    }
-
-    suspend fun updateWorkout(workout: Workout) {
-        Firebase.firestore
-            .collection("workouts")
-            .document(workout.id!!)
-            .set(workout)
-            .await()
-
-        val oldWorkoutIndex = workoutsCache.indexOfFirst {
-            it.id == workout.id
-        }
-
-        workoutsCache[oldWorkoutIndex] = workout
     }
 }

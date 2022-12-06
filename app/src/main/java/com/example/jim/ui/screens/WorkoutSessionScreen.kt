@@ -22,7 +22,10 @@ fun WorkoutSessionScreen(navHostController: NavHostController) {
     val state = viewModel.uiState
     val scope = rememberCoroutineScope()
 
+    if (state.workoutSaveSuccess) {
+        navHostController.popBackStack()
 
+    }
     Column {
         //Recent Workouts
         Row(
@@ -35,15 +38,15 @@ fun WorkoutSessionScreen(navHostController: NavHostController) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-                FormField(
-                    value = state.newExerciseName,
-                    onValueChange = { state.newExerciseName = it },
-                    placeholder = { Text(text = "Exercise Name") }
-                )
+            FormField(
+                value = state.newExerciseName,
+                onValueChange = { state.newExerciseName = it },
+                placeholder = { Text(text = "Exercise Name") }
+            )
         }
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
+            horizontalArrangement = Arrangement.SpaceAround
         ) {
             Button(onClick = {
                 scope.launch {
@@ -52,9 +55,17 @@ fun WorkoutSessionScreen(navHostController: NavHostController) {
             }) {
                 Text(text = "Add Exercise")
             }
+            Button(onClick = {
+                scope.launch {
+                    viewModel.addWorkout()
+                }
+            }) {
+                Text(text = "Complete Workout")
+            }
         }
 
         if (state.exercises.isNotEmpty()) {
+
             LazyColumn(
                 modifier = Modifier
                     .fillMaxHeight()
@@ -64,25 +75,18 @@ fun WorkoutSessionScreen(navHostController: NavHostController) {
                     ExerciseListItem(
                         exercise = exercise,
                         sets = state.sets.filter { set -> set.exerciseId == exercise.id },
-                        viewModel = viewModel,
-                        state = state
+                        viewModel = viewModel
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                 }
             }
+
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+
         }
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Button(onClick = {
-                scope.launch {
-//                    viewModel.addExercise()
-                }
-            }) {
-                Text(text = "Complete Workout")
-            }
-        }
+
 
     }
 }

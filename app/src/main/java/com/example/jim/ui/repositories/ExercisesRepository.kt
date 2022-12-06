@@ -11,12 +11,11 @@ object ExercisesRepository {
     private val exercisesCache = mutableListOf<Exercise>()
     private var cacheInitialized = false
 
-    suspend fun getExercises(workoutId: String): List<Exercise> {
+    suspend fun getUserExercises(): List<Exercise> {
         if (!cacheInitialized){
             val snapshot = Firebase.firestore
                 .collection("exercises")
                 .whereEqualTo("userId", UserRepository.getCurrentUserId())
-                .whereEqualTo("workoutId", workoutId)
                 .get()
                 .await()
             exercisesCache.addAll(snapshot.toObjects())

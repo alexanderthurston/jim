@@ -16,17 +16,13 @@ import java.time.LocalDate
 import kotlin.reflect.typeOf
 
 class WorkoutSessionScreenState {
-    val workoutSaveSuccess by mutableStateOf(false)
+    var workoutSaveSuccess by mutableStateOf(false)
     val start by mutableStateOf(System.currentTimeMillis()/1000)
-    val end by mutableStateOf(0)
     val _exercises = mutableStateListOf<Exercise>()
     val exercises: List<Exercise> get() = _exercises
     val _sets = mutableStateListOf<Set>()
     val sets: List<Set> get() = _sets
     var newExerciseName by mutableStateOf("")
-//    var newSetWeight by mutableStateOf(0)
-//    var newSetReps by mutableStateOf(0)
-
 }
 
 class WorkoutSessionViewModel(application: Application): AndroidViewModel(application) {
@@ -39,18 +35,23 @@ class WorkoutSessionViewModel(application: Application): AndroidViewModel(applic
     }
 
     suspend fun addSet(reps: Int, weight: Int, exerciseId: String) {
+        println("addSet was called ${reps} , ${weight}")
         val set = SetsRepository.createSet(reps, weight, exerciseId)
         uiState._sets.add(set)
     }
 
     suspend fun addWorkout() {
         val workout = WorkoutsRepository.createWorkout((((System.currentTimeMillis()/1000) - uiState.start)/60).toInt(), LocalDate.now().toString())
-//        if(workout::class.simpleName == "Workout"){
-//            uiState.workoutSaveSuccess = true
-//        } else {
-//
-//        }
+        for (exercise in uiState.exercises) {
+            exercise.workoutId = workout.id
+            ExercisesRepository.updateExercise(exercise)
+        }
 
+        for (set in uiState.sets) {
+            set.workoutId = workout.id
+            SetsRepository.updateSet(set)
+        }
+        uiState.workoutSaveSuccess = true
     }
 
 
