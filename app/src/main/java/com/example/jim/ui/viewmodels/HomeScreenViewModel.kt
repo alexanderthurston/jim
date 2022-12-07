@@ -12,6 +12,7 @@ import com.example.jim.ui.models.Set
 import com.example.jim.ui.repositories.ExercisesRepository
 import com.example.jim.ui.repositories.SetsRepository
 import com.example.jim.ui.repositories.WorkoutsRepository
+import java.time.LocalDate
 
 class HomeScreenState {
     val _workouts = mutableStateListOf<Workout>()
@@ -21,9 +22,11 @@ class HomeScreenState {
     val _sets = mutableStateListOf<Set>()
     val sets: List<Set> get() = _sets
     var loading by mutableStateOf(true)
+    var weekly_duration by mutableStateOf(0)
+    var monthly_duration by mutableStateOf(0)
 }
 
-class HomeScreenViewModel(application: Application): AndroidViewModel(application) {
+class HomeScreenViewModel(application: Application) : AndroidViewModel(application) {
     val uiState = HomeScreenState()
     suspend fun getWorkoutsExercisesAndSets() {
         val workouts = WorkoutsRepository.getUserWorkouts()
@@ -35,5 +38,17 @@ class HomeScreenViewModel(application: Application): AndroidViewModel(applicatio
         uiState._exercises.addAll(exercises)
         uiState._sets.clear()
         uiState._sets.addAll(sets)
+    }
+
+    fun calculateDurations() {
+        uiState.workouts.filter { workout ->
+            LocalDate.parse(workout.date) > LocalDate.now()
+                .minusDays(7) && LocalDate.parse(workout.date) <= LocalDate.now()
+        }.forEach { workout -> uiState.weekly_duration += workout.duration!! }
+
+        uiState.workouts.filter { workout ->
+            LocalDate.parse(workout.date) > LocalDate.now()
+                .minusMonths(1) && LocalDate.parse(workout.date) <= LocalDate.now()
+        }.forEach { workout -> uiState.monthly_duration += workout.duration!! }
     }
 }

@@ -48,7 +48,7 @@ fun ExerciseListItem(
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceAround
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(text = exercise.name ?: "", style = MaterialTheme.typography.subtitle2)

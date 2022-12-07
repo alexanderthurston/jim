@@ -28,6 +28,7 @@ fun HomeScreen(navHostController: NavHostController) {
         delay(2000)
 //        println(state.loading)
         loadingWorkouts.await()
+        viewModel.calculateDurations()
 //        println(state.loading)
         state.loading = false
 //        println(state.loading)
@@ -42,6 +43,18 @@ fun HomeScreen(navHostController: NavHostController) {
             Row(modifier = Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
                 Text(text = "Recent Workout Logs", style=MaterialTheme.typography.h4)
             }
+
+            //Workout Durations
+            Spacer(modifier = Modifier.height(16.dp))
+            Column(){
+                Row(modifier = Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
+                    Text(text = "Last week you worked out for ${state.weekly_duration} minutes!", style=MaterialTheme.typography.subtitle1)
+                }
+                Row(modifier = Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
+                    Text(text = "Last month you worked out for ${state.weekly_duration} minutes!", style=MaterialTheme.typography.subtitle1)
+                }
+            }
+
             LazyColumn(modifier = Modifier
                 .fillMaxHeight()
                 .padding(16.dp)) {
@@ -55,7 +68,6 @@ fun HomeScreen(navHostController: NavHostController) {
                 }
             }
 
-            //Workout Durations
 
         }
     }
