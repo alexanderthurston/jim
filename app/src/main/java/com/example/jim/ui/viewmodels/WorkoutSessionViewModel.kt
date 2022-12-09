@@ -12,6 +12,7 @@ import com.example.jim.ui.models.Workout
 import com.example.jim.ui.repositories.ExercisesRepository
 import com.example.jim.ui.repositories.SetsRepository
 import com.example.jim.ui.repositories.WorkoutsRepository
+import kotlinx.coroutines.delay
 import java.time.LocalDate
 import kotlin.reflect.typeOf
 
@@ -51,6 +52,9 @@ class WorkoutSessionViewModel(application: Application): AndroidViewModel(applic
             set.workoutId = workout.id
             SetsRepository.updateSet(set)
         }
+
+        delay(3000)
+
         uiState.workoutSaveSuccess = true
     }
 

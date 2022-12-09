@@ -1,6 +1,5 @@
 package com.example.jim.ui.repositories
 
-import com.example.jim.ui.models.Exercise
 import com.example.jim.ui.models.Set
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObjects

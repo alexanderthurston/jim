@@ -1,7 +1,11 @@
 package com.example.jim.ui.repositories
 
+import com.example.jim.ui.models.Exercise
+import com.example.jim.ui.models.UserProfile
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
 
@@ -28,6 +32,29 @@ object UserRepository {
         } catch (e: FirebaseAuthException) {
             throw SignInException(e.message)
         }
+    }
+
+    suspend fun createUserProfile(
+        name: String,
+        birthday: String
+    ): UserProfile {
+        val doc = Firebase.firestore.collection("userProfiles").document()
+        val userProfile = UserProfile(
+            userId = getCurrentUserId(),
+            name = name,
+            birthday = birthday
+        )
+        doc.set(userProfile).await()
+        return userProfile
+    }
+
+    suspend fun userProfileExists(): Boolean {
+        val snapshot = Firebase.firestore
+            .collection("userProfiles")
+            .whereEqualTo("userId", getCurrentUserId())
+            .get()
+            .await()
+        return !snapshot.isEmpty
     }
 
     fun getCurrentUserId(): String? {

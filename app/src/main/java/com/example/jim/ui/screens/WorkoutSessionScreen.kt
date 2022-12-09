@@ -55,8 +55,10 @@ fun WorkoutSessionScreen(navHostController: NavHostController) {
         ) {
 
             Button(onClick = {
-                scope.launch {
-                    viewModel.addExercise()
+                if(state.newExerciseName.isNotEmpty()){
+                    scope.launch {
+                        viewModel.addExercise()
+                    }
                 }
             }) {
                 Text(text = "Add Exercise")
@@ -67,8 +69,10 @@ fun WorkoutSessionScreen(navHostController: NavHostController) {
 
 
             Button(onClick = {
-                scope.launch {
-                    viewModel.addWorkout()
+                if(state.exercises.isNotEmpty()) {
+                    scope.launch {
+                        viewModel.addWorkout()
+                    }
                 }
             }) {
                 Text(text = "Complete Workout")
